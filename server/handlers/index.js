@@ -1,7 +1,7 @@
-const loginHandler = require("./loginHandler");
+const usersHandler = require("./usersHandler");
 const messageHandler = require("./messageHandler");
 
 module.exports = {
-	loginHandler,
+	usersHandler,
 	messageHandler
 }

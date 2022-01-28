@@ -1,8 +1,23 @@
 {
 	"users": [
 		{
-			"username": "Mostafa1647",
+			"username": "ghanbar",
 			"password": "$2b$10$9Dy85zGu02E7RB7BSMlLxuWcmF9TisjijKj1HftFEplIeDoQjvPMG"
+		},
+		{
+			"username": "mammad",
+			"password": "$2b$10$9Dy85zGu02E7RB7BSMlLxuWcmF9TisjijKj1HftFEplIeDoQjvPMG"
+		}
+	],
+	"groups": [
+		{
+			"groupName": "iut",
+			"blpUsers": [
+				"mammad"
+			],
+			"bibaUsers": [
+				"ghanbar"
+			]
 		}
 	]
 }

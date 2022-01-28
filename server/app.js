@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const http = require("http");
 const cors = require("cors");
+const store = require("./db/db");
 
 // const indexRouter = require('./routes/index.js');
 // const usersRouter = require('./routes/users');
@@ -12,7 +13,7 @@ const {Server} = require("socket.io");
 const { instrument } = require("@socket.io/admin-ui");
 
 // socket handlers
-const {loginHandler, messageHandler} = require("./handlers");
+const {usersHandler, messageHandler} = require("./handlers");
 
 const app = express();
 
@@ -44,8 +45,12 @@ app.use(cors());
 // sockets
 io.on('connection', (socket) => {
 	console.log("getting new connection", socket.id)
-	loginHandler(io, socket);
-	messageHandler(io, socket);
+	usersHandler(io, socket, store);
+	messageHandler(io, socket, store);
+
+	socket.on("disconnect", () => {
+
+	})
 });
 
 // start server
