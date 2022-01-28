@@ -1,4 +1,6 @@
-const socket = io("ws://localhost:5050");
+const socket = io("ws://localhost:3000", {
+	path: "/socket"
+});
 
 const loginForm = document.getElementById("login-form");
 const masterHead = document.querySelector(".masthead");
