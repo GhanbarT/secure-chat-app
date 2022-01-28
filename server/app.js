@@ -3,12 +3,16 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const http = require("http");
+const cors = require("cors");
 
-// const indexRouter = require('./routes/index');
+// const indexRouter = require('./routes/index.js');
 // const usersRouter = require('./routes/users');
 
 const {Server} = require("socket.io");
 const { instrument } = require("@socket.io/admin-ui");
+
+// socket handlers
+const {loginHandler, messageHandler} = require("./handlers");
 
 const app = express();
 
@@ -31,27 +35,18 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 // routes
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 
-const db = require("./db/db.json");
-
 // sockets
 io.on('connection', (socket) => {
-	console.log('a user connected', {id: socket.id, connected: socket.connected});
-	socket.on("message", data => {
-		console.log("new message", data);
-	})
-
-	socket.on("login", data => {
-		console.log("login", data);
-		console.log(db.users);
-	})
+	console.log("getting new connection", socket.id)
+	loginHandler(io, socket);
+	messageHandler(io, socket);
 });
-
-
 
 // start server
 const port = process.env.PORT || 3000;
