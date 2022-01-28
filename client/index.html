@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sass.js/0.6.2/sass.min.js"
+        integrity="sha512-lmuNSGprTM9SdDQ8WuvkeGSgUn4R7jogp37VuQ8rrdNOSHQ9UDY9PF5f/gXjhMytuvxf3NADUXL+eb7K0DvIcw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"
+        integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
+        crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" href="style/style.css" />
+
+
+</head>
+
+<body>
+
+    <section class="masthead" role="img" aria-label="Image Description">
+        <div>
+            <h3>
+                Login
+            </h3>
+            <form id="login-form" action="">
+                <input type="text" placeholder="username" class="input">
+                <input type="password" placeholder="password" class="input">
+                <div class="error display-none"></div>
+                <input type="submit" value="login" class="btn large">
+            </form>
+        </div>
+    </section>
+
+    <main>
+        <ul id="messages"></ul>
+        <form id="message-input" action="" class="display-none">
+            <input type="text" autocomplete="off" />
+            <input type="submit" value="Send" class="btn">
+        </form>
+    </main>
+
+
+    <script defer src="app.js"></script>
+</body>
+
+</html>
