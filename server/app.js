@@ -1,12 +1,14 @@
+require("dotenv").config();
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const http = require("http");
 const cors = require("cors");
-const store = require("./db/db");
 
-// const indexRouter = require('./routes/index.js');
+const {mongodbConnect} = require("./db/connection")
+
+// const indexRouter = require('./routes/index.js.js');
 // const usersRouter = require('./routes/users');
 
 const {Server} = require("socket.io");
@@ -45,13 +47,19 @@ app.use(cors());
 // sockets
 io.on('connection', (socket) => {
 	console.log("getting new connection", socket.id)
-	usersHandler(io, socket, store);
-	messageHandler(io, socket, store);
+	usersHandler(io, socket);
+	messageHandler(io, socket);
 });
 
-// start server
-const port = process.env.PORT || 3000;
 
-httpServer.listen(port, () => {
-	console.log(`Server running on port ${port}`);
-});
+(async () => {
+
+	// database connection
+	await mongodbConnect();
+	// start server
+	const port = process.env.PORT || 3000;
+	httpServer.listen(port, () => {
+		console.log(`Server running on port ${port}`);
+	});
+
+})();

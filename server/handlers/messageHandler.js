@@ -1,7 +1,7 @@
-module.exports = (io, socket, store) => {
+module.exports = (io, socket) => {
 
 	const messageHandler = (data) => {
-		console.log("message", store);
+		console.log("message");
 	}
 
 	socket.on("message", messageHandler)
