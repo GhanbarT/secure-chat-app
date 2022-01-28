@@ -11,7 +11,6 @@ yarn start
 ```
 
 ### Run in development mode
-
 ```
 cd server
 yarn global add nodemon
