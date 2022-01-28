@@ -12,7 +12,7 @@ const mongodbConnect = async () => {
 		console.log(e);
 		throw new Error("Could not connect to database!");
 	}
-}
+};
 
 
 module.exports = {

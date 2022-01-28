@@ -12,7 +12,7 @@ module.exports = (io, socket) => {
 	}
 
 	const login = async (data) => {
-		// const {username, password} = JSON.parse(data);
+		const {username, password} = JSON.parse(data);
 		// for (const _user of store.users) {
 		// 	if (_user.username === username) {
 		// 		if (await bcrypt.compare(password, _user.password)) {
@@ -24,6 +24,7 @@ module.exports = (io, socket) => {
 		// 	}
 		// }
 		// io.to(socket.id).emit("login:error")
+
 	}
 
 	const getAllChats = () => {
