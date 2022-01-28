@@ -14,6 +14,7 @@ yarn start
 
 ```
 cd server
+yarn global add nodemon
 yarn install
 yarn dev
 ```
