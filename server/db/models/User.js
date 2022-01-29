@@ -1,9 +1,10 @@
 const {Schema, model, Types} = require('mongoose');
-const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
 	username: String,
-	password: String
+	password: String,
+	currentSocketId: String,
+	chats: []
 }, {
 	timestamps: true
 });

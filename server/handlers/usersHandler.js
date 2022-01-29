@@ -1,42 +1,51 @@
 const bcrypt = require("bcrypt");
+const {Users} = require("../db/models");
 
 module.exports = (io, socket) => {
 
-	const findUserBySocketId = () => {
-		// for(const _user of store.users) {
-		// 	if(_user.currentSocketId === socket.id) {
-		// 		return _user;
-		// 	}
-		// }
-		return null;
+	const findUserBySocketId = async () => {
+		try {
+			return await Users.findOne({
+				currentSocketId: socket.id
+			});
+		} catch (e) {
+			throw new Error();
+		}
 	}
 
-	const login = async (data) => {
-		const {username, password} = JSON.parse(data);
-		// for (const _user of store.users) {
-		// 	if (_user.username === username) {
-		// 		if (await bcrypt.compare(password, _user.password)) {
-		// 			io.to(socket.id).emit("login:success");
-		// 			_user.currentSocketId = socket.id;
-		// 		} else {
-		// 			io.to(socket.id).emit("login:error")
-		// 		}
-		// 	}
-		// }
-		// io.to(socket.id).emit("login:error")
-
+	const login = async ({username, password}) => {
+		try {
+			const user = await Users.findOne({username});
+			if(!user) {
+				throw new Error("Wrong Credentials!");
+			}
+			if (await bcrypt.compare(password, user.password)) {
+				try {
+					user.currentSocketId = socket.id;
+					await user.save();
+				} catch (e) {
+					throw new Error();
+				}
+				io.to(socket.id).emit("login:success");
+			} else {
+				throw new Error("Wrong Credentials!")
+			}
+		} catch (e) {
+			io.to(socket.id).emit("login:error", {message: e.message});
+		}
 	}
 
 	const getAllChats = () => {
-		// const user = findUserBySocketId();
-		// if(!user) {
-		// 	io.to(socket.id).emit("forbidden")
-		// }
-		// io.to(socket.id).emit("get-all-chats", user.chats);
+		const user = findUserBySocketId();
+		if(!user) {
+			io.to(socket.id).emit("forbidden");
+			return;
+		}
+		io.to(socket.id).emit("get-all-chats", user.chats);
 	}
 
 	const addChat = (data) => {
-
+		// todo;
 	}
 
 	socket.on("login", login)

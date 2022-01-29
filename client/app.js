@@ -96,16 +96,15 @@ loginForm.addEventListener('submit', (e) => {
     // send information to server
     let username = usernameEl.value;
     let password = passwordEl.value;
-    console.log(JSON.stringify({username, password}));
-    const data = JSON.stringify({username, password});
-    socket.emit('login', data);
+    console.log({username, password});
+    socket.emit('login', {username, password});
 });
 
 // message: submit
 messageInputForm.addEventListener('submit', (e) => {
     e.preventDefault();
     if (messageInput.value) {
-        socket.emit('message', messageInput.value);
+        socket.emit('message', {message: messageInput.value});
         messageInput.value = '';
         messageInput.focus();
     }

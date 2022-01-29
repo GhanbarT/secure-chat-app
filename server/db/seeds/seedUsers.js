@@ -2,6 +2,7 @@ const {Users} = require("../models");
 
 const seedUsers = async () => {
 	try {
+		console.log("seeding users");
 		await Users.create([
 			{
 				username: "ghanbar",
@@ -12,7 +13,7 @@ const seedUsers = async () => {
 				password: "$2b$10$9Dy85zGu02E7RB7BSMlLxuWcmF9TisjijKj1HftFEplIeDoQjvPMG"
 			}
 		]);
-
+		console.log("Done");
 	} catch (e) {
 		console.log(e)
 	}
