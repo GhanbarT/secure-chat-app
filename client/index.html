@@ -9,7 +9,8 @@
     <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"
             integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
             crossorigin="anonymous"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!--    <script src="https://cdn.tailwindcss.com"></script>-->
 
     <link rel="stylesheet" href="style/style.css"/>
 
@@ -80,13 +81,34 @@
             </label>
             <input id="search-bar" type="text" placeholder="search user or group">
         </header>
-        <article class="message-wrapper">
-        </article>
+        <section id="message-wrapper">
+            <div class="message">
+                <div class="avatar">my name</div>
+                <div class="message-text">my text</div>
+            </div>
+            <div class="message">
+                <div class="avatar">my name</div>
+                <div class="message-text">my text</div>
+            </div>
+            <div class="message">
+                <div class="avatar">my namemy namemy namemy name</div>
+                <div class="message-text">my text</div>
+            </div>
+            <div class="message">
+                <div class="avatar">my name</div>
+                <div class="message-text">my text</div>
+            </div>
+            <div class="message">
+                <div class="avatar">my name</div>
+                <div class="message-text">my text</div>
+            </div>
+
+        </section>
         <form id="message-input" action="">
             <label for="message-text-input"></label>
             <input id="message-text-input" type="text" autocomplete="off"
                    placeholder="type your message and send by enter"/>
-            <input type="submit" value="Send" class="btn">
+            <input type="submit" value="Send" class="my-btn">
         </form>
     </main>
 </div>

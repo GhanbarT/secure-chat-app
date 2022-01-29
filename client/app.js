@@ -23,13 +23,15 @@ const loginErrorMessage = document.getElementById('login-error');
 
 // main layout
 const layout = document.querySelector('.layout');
-const messages = document.getElementById('messages');
+
+// main
+const chatBar = document.getElementById('chat-bar');
+const messageWrapper = document.getElementById('message-wrapper');
+
+// input
 const messageInputForm = document.getElementById('message-input');
 const messageInput = document.getElementById('message-text-input');
 const sendMessageBtn = messageInputForm.querySelector('input[type=submit]');
-
-
-const chatBar = document.getElementById('chat-bar');
 
 /************************
  *   Login Handlers
@@ -80,9 +82,6 @@ socket.on('add-chat', (data) => {
 });
 
 socket.on('message', ({from, message}) => {
-    const el = document.createElement('li');
-    el.innerHTML = data;
-    messages.appendChild(el);
 });
 
 
@@ -99,7 +98,24 @@ function sendMessage() {
 }
 
 function selectChat(e) {
-    console.log(e.currentTarget);
+    let children = chatBar.querySelectorAll('li');
+
+    for (const el of children) {
+        el.classList.remove('selected');
+    }
+    e.target.classList.add('selected');
+    console.log(e.target);
+
+
+    // change @messageWrapper innerHtml
+
+    allMessage = '';
+    name = 'name';
+    text = 'message text';
+    message = `<article class="message"><div class="avatar">${name}</div><div class="message-text">${text}</div></article>`;
+    allMessage += message;
+
+    // messageWrapper.innerHTML = allMessage
 }
 
 /****************************
