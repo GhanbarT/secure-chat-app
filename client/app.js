@@ -8,7 +8,9 @@ const socket = io('ws://localhost:3000', {
  *   Global Variables
  **************************/
 let chats = [];
-let currentChat = null;
+
+// Todo: change @currentChat to null
+let currentChat = 0;
 
 /********************
  * Element finding
@@ -25,6 +27,9 @@ const messages = document.getElementById('messages');
 const messageInputForm = document.getElementById('message-input');
 const messageInput = document.getElementById('message-text-input');
 const sendMessageBtn = messageInputForm.querySelector('input[type=submit]');
+
+
+const chatBar = document.getElementById('chat-bar');
 
 /************************
  *   Login Handlers
@@ -93,6 +98,10 @@ function sendMessage() {
     }
 }
 
+function selectChat(e) {
+    console.log(e.currentTarget);
+}
+
 /****************************
  *   Event Listeners
  *****************************/
@@ -127,8 +136,10 @@ loginForm.addEventListener('submit', (e) => {
     // console.log({username, password});
 });
 
-// message: submit
 
+chatBar.addEventListener('click', selectChat);
+
+// message: submit
 messageInputForm.addEventListener('submit', (e) => {
     e.preventDefault();
     if (currentChat === null) return;

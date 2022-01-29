@@ -66,14 +66,26 @@
 
 <!-- add display-none class to this element -->
 <div class="layout">
-    <aside>
-
+    <aside id="chat-bar">
+        <ul>
+            <li class="selected">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
     </aside>
     <main>
-        <ul id="messages"></ul>
+        <header>
+            <label for="search-bar">
+            </label>
+            <input id="search-bar" type="text" placeholder="search user or group">
+        </header>
+        <article class="message-wrapper">
+        </article>
         <form id="message-input" action="">
             <label for="message-text-input"></label>
-            <input id="message-text-input" type="text" autocomplete="off"/>
+            <input id="message-text-input" type="text" autocomplete="off"
+                   placeholder="type your message and send by enter"/>
             <input type="submit" value="Send" class="btn">
         </form>
     </main>
