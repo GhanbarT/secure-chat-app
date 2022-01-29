@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sass.js/0.6.2/sass.min.js"
-            integrity="sha512-lmuNSGprTM9SdDQ8WuvkeGSgUn4R7jogp37VuQ8rrdNOSHQ9UDY9PF5f/gXjhMytuvxf3NADUXL+eb7K0DvIcw=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"
             integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
             crossorigin="anonymous"></script>
@@ -16,12 +13,11 @@
 
     <link rel="stylesheet" href="style/style.css"/>
 
-
 </head>
 
 <body>
 
-<section aria-label="Image Description" class="masthead">
+<section aria-label="Image Description" class="masthead display-none">
     <div class="items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
             <div>
@@ -68,15 +64,20 @@
     </div>
 </section>
 
-<main>
-    <ul id="messages"></ul>
-    <form id="message-input" action="" class="display-none">
-        <label>
-            <input type="text" autocomplete="off"/>
-        </label>
-        <input type="submit" value="Send" class="btn">
-    </form>
-</main>
+<!-- add display-none class to this element -->
+<div class="layout">
+    <aside>
+
+    </aside>
+    <main>
+        <ul id="messages"></ul>
+        <form id="message-input" action="">
+            <label for="message-text-input"></label>
+            <input id="message-text-input" type="text" autocomplete="off"/>
+            <input type="submit" value="Send" class="btn">
+        </form>
+    </main>
+</div>
 
 <script defer src="app.js"></script>
 </body>

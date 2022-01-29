@@ -4,30 +4,39 @@ const socket = io('ws://localhost:3000', {
 });
 
 
+/*************************
+ *   Global Variables
+ **************************/
+let chats = [];
+let currentChat = null;
+
 /********************
  * Element finding
  *********************/
+// login layout
 const loginForm = document.getElementById('login-form');
 const masterHead = document.querySelector('.masthead');
 const loginErrorMessage = document.getElementById('login-error');
 
 
+// main layout
+const layout = document.querySelector('.layout');
 const messages = document.getElementById('messages');
 const messageInputForm = document.getElementById('message-input');
-const messageInput = messageInputForm.querySelectorAll('input[type=text]')[0];
+const messageInput = document.getElementById('message-text-input');
+const sendMessageBtn = messageInputForm.querySelector('input[type=submit]');
 
-
-/**********************
+/************************
  *   Login Handlers
- ***********************/
+ *************************/
 socket.on('login:success', (data) => {
     /* if login successfully */
 
     // hide master head
     masterHead.classList.add('display-none');
 
-    // show input
-    messageInputForm.classList.remove('display-none');
+    // show main layout
+    layout.classList.remove('display-none');
     messageInput.focus();
 
     // get chats
@@ -43,10 +52,14 @@ socket.on('login:error', (data) => {
     // create message
     let message = '';
     message += '<li>username or password are wrong</li>';
-    message += '<li>please enter info again</li>';
+    message += '<li>please enter your information correctly</li>';
+
+    // show error message
+    loginErrorMessage.classList.remove('display-none');
     loginErrorMessage.innerHTML = `<ul>${message}</ul>`;
 
     // change focus to elements
+    usernameEl.select();
     usernameEl.focus();
 });
 
@@ -61,16 +74,29 @@ socket.on('add-chat', (data) => {
 
 });
 
-socket.on('message', (data) => {
+socket.on('message', ({from, message}) => {
     const el = document.createElement('li');
     el.innerHTML = data;
     messages.appendChild(el);
 });
 
 
+/*************************
+ *   Functions
+ **************************/
+function sendMessage() {
+    if (messageInput.value.trim()) {
+        console.log({message: messageInput.value, to: 'mamad'});
+        socket.emit('message:private', {message: messageInput.value, to: 'mamad'});
+        messageInput.value = '';
+        messageInput.focus();
+    }
+}
+
 /****************************
  *   Event Listeners
  *****************************/
+
 
 // login: submit
 loginForm.addEventListener('submit', (e) => {
@@ -96,16 +122,15 @@ loginForm.addEventListener('submit', (e) => {
     // send information to server
     let username = usernameEl.value;
     let password = passwordEl.value;
-    console.log({username, password});
     socket.emit('login', {username, password});
+
+    // console.log({username, password});
 });
 
 // message: submit
+
 messageInputForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (messageInput.value) {
-        socket.emit('message', {message: messageInput.value});
-        messageInput.value = '';
-        messageInput.focus();
-    }
+    if (currentChat === null) return;
+    sendMessage();
 });
