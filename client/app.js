@@ -45,6 +45,7 @@ const sendMessageBtn = messageInputForm.querySelector('input[type=submit]');
  *************************/
 socket.on('login:success', (data) => {
     /* if login successfully */
+    // console.log('login:success');
 
     // hide master head
     masterHead.classList.add('display-none');
@@ -57,37 +58,35 @@ socket.on('login:success', (data) => {
     socket.emit('get-all-chats');
 });
 
-socket.on('login:error', (data) => {
+socket.on('error', ({message, where}) => {
     /* if login failure */
+    if (where === 'login') {
+        // find elements
+        const usernameEl = loginForm.querySelector('input[type="text"]');
 
-    // find elements
-    const usernameEl = loginForm.querySelector('input[type="text"]');
+        // create message
+        let message = '';
+        message += '<li>username or password are wrong</li>';
+        message += '<li>please enter your information correctly</li>';
 
-    // create message
-    let message = '';
-    message += '<li>username or password are wrong</li>';
-    message += '<li>please enter your information correctly</li>';
+        // show error message
+        loginErrorMessage.classList.remove('display-none');
+        loginErrorMessage.innerHTML = `<ul>${message}</ul>`;
 
-    // show error message
-    loginErrorMessage.classList.remove('display-none');
-    loginErrorMessage.innerHTML = `<ul>${message}</ul>`;
-
-    // change focus to elements
-    usernameEl.select();
-    usernameEl.focus();
+        // change focus to elements
+        usernameEl.select();
+        usernameEl.focus();
+    }
 });
 
 /**********************
  *   User Handlers
  ***********************/
 socket.on('get-all-chats', (data) => {
-
-    // clear chat message wrapper
-    messageWrapper.innerHTML = '';
-
-
     console.log(data);
 
+    // clear chat message wrapper
+    messageWrapper.innerHTML = '<div class="notification">no chat selected</div>';
 
     allChatsHtml = '<ul>';
     let singleChat = `<li data-index="0">1</li>`;

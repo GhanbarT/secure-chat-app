@@ -7,7 +7,7 @@ module.exports = (io, socket) => {
 		try {
 			return await Users.findOne({
 				currentSocketId: socket.id
-			});
+			}).populate("chats.user").populate("chats.group");
 		} catch (e) {
 			throw new Error();
 		}
