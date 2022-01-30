@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const {Users} = require("../db/models");
+const {Users, Groups} = require("../db/models");
 
 module.exports = (io, socket) => {
 
@@ -23,8 +23,13 @@ module.exports = (io, socket) => {
 				try {
 					user.currentSocketId = socket.id;
 					await user.save();
+					// add user to rooms
+					const groups = await Groups.find({
+						blpUsers: user._id
+					});
+					socket.join(...groups.map(_group => `group:${_group._id.toString()}`))
 				} catch (e) {
-					throw new Error();
+					throw new Error("could not save session, server error!!");
 				}
 				io.to(socket.id).emit("login:success");
 			} else {
@@ -42,8 +47,6 @@ module.exports = (io, socket) => {
 					io.to(socket.id).emit("error", {message: "forbidden", where: "getAllChats"});
 					return;
 				}
-
-				console.log(user, user.chats);
 				io.to(socket.id).emit("get-all-chats", user.chats);
 			});
 	}
