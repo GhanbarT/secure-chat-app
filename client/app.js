@@ -2,7 +2,11 @@
 const socket = io('ws://localhost:3000', {
     path: '/socket'
 });
+let sessionKey = '';
 
+socket.on('connect', () => {
+    sessionKey = socket.id;
+});
 
 /*************************
  *   Global Variables
@@ -27,6 +31,9 @@ const layout = document.querySelector('.layout');
 // main
 const chatBar = document.getElementById('chat-bar');
 const messageWrapper = document.getElementById('message-wrapper');
+
+searchBar = document.getElementById('search-bar');
+addChatBtn = document.getElementById('add-chat-btn');
 
 // input
 const messageInputForm = document.getElementById('message-input');
@@ -74,7 +81,19 @@ socket.on('login:error', (data) => {
  *   User Handlers
  ***********************/
 socket.on('get-all-chats', (data) => {
+
+    // clear chat message wrapper
+    messageWrapper.innerHTML = '';
+
+
     console.log(data);
+
+
+    allChatsHtml = '<ul>';
+    let singleChat = `<li data-index="0">1</li>`;
+    allChatsHtml += singleChat;
+    allChatsHtml += '</ul>';
+
 });
 
 socket.on('add-chat', (data) => {
@@ -103,10 +122,12 @@ function selectChat(e) {
     for (const el of children) {
         el.classList.remove('selected');
     }
+    console.log(e.target, e.target.dataset.index);
     e.target.classList.add('selected');
-    console.log(e.target);
 
+    // currentChat = e.target.dataset.index;
 
+    // get message of current chat
     // change @messageWrapper innerHtml
 
     allMessage = '';
@@ -154,6 +175,10 @@ loginForm.addEventListener('submit', (e) => {
 
 
 chatBar.addEventListener('click', selectChat);
+
+addChatBtn.addEventListener('click', (e) => {
+
+});
 
 // message: submit
 messageInputForm.addEventListener('submit', (e) => {

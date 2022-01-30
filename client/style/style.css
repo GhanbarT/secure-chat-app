@@ -117,7 +117,7 @@ p {
   text-transform: uppercase;
   background: var(--clr-primary-5);
   color: var(--clr-white);
-  padding: 0 0.5rem;
+  padding: 0.25rem 0.5rem;
   letter-spacing: var(--spacing);
   display: block;
   transition: var(--transition);
@@ -270,6 +270,7 @@ body {
     .layout main > header {
       display: flex;
       justify-content: center;
+      column-gap: 0.5rem;
       align-items: center;
       height: 3.5rem;
       width: 100%;

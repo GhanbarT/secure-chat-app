@@ -69,7 +69,7 @@
 <div class="layout">
     <aside id="chat-bar">
         <ul>
-            <li class="selected">1</li>
+            <li class="selected" data-index="0">1</li>
             <li>2</li>
             <li>3</li>
             <li>4</li>
@@ -79,9 +79,17 @@
         <header>
             <label for="search-bar">
             </label>
-            <input id="search-bar" type="text" placeholder="search user or group">
+            <input id="search-bar" type="text" placeholder="user or group name">
+            <button id="add-chat-btn" class="my-btn">
+                add chat
+            </button>
         </header>
         <section id="message-wrapper">
+
+            <div class="notification">
+
+            </div>
+
             <div class="message">
                 <div class="avatar">my name</div>
                 <div class="message-text">my text</div>
