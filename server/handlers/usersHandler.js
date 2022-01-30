@@ -36,12 +36,15 @@ module.exports = (io, socket) => {
 	}
 
 	const getAllChats = () => {
-		const user = findUserBySocketId();
-		if(!user) {
-			io.to(socket.id).emit("error", {message: "forbidden", where: "getAllChats"});
-			return;
-		}
-		io.to(socket.id).emit("get-all-chats", user.chats);
+		findUserBySocketId().then(user => {
+        if(!user) {
+            io.to(socket.id).emit("error", {message: "forbidden", where: "getAllChats"});
+            return;
+        }
+
+        console.log(user, user.chats);
+        io.to(socket.id).emit("get-all-chats", user.chats);
+    });
 	}
 
 	const addChat = async ({isGroup, id}) => {
