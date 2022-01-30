@@ -11,6 +11,7 @@ const seedGroups = require("./seedGroups");
 		// await seedUsers();
 		// await seedGroups();
 
+
 	} catch (e) {
 		console.error(e);
 	}

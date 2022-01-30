@@ -41,6 +41,7 @@ module.exports = (io, socket) => {
 			io.to(socket.id).emit("forbidden");
 			return;
 		}
+
 		io.to(socket.id).emit("get-all-chats", user.chats);
 	}
 
