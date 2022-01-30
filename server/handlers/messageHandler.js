@@ -28,7 +28,7 @@ module.exports = (io, socket) => {
 			}
 			// send message in target user socket
 			io.to(targetUser.currentSocketId).emit("get_message:private", {
-				..._message,
+				..._message.toJSON(),
 				to: targetUser,
 				from: currentUser
 			})

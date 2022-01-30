@@ -138,8 +138,17 @@ socket.on('get_message:private', (data) => {
  **************************/
 function sendMessage() {
 	if (messageInput.value.trim()) {
-		console.log({message: messageInput.value, to: 'mamad'});
-		socket.emit('message:private', {message: messageInput.value, to: 'mamad'});
+		console.log({
+			message: messageInput.value,
+			to: chats[currentChatIndex].isGroup ? chats[currentChatIndex].group._id : chats[currentChatIndex].user._id
+		});
+		socket.emit(
+			'message:private',
+			{
+				message: messageInput.value,
+				to: chats[currentChatIndex].isGroup ? chats[currentChatIndex].group._id : chats[currentChatIndex].user._id
+			}
+		);
 		messageInput.value = '';
 		messageInput.focus();
 	}
