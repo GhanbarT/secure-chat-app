@@ -4,15 +4,15 @@ const chatSchema = new Schema({
 	isGroup: Boolean,
 	group: {
 		type: Types.ObjectId,
-		ref: "group"
+		ref: 'group'
 	},
 	user: {
 		type: Types.ObjectId,
-		ref: "user"
+		ref: 'user'
 	},
 }, {
 	timestamps: true
-})
+});
 
 
 const userSchema = new Schema({
@@ -28,4 +28,4 @@ const userSchema = new Schema({
 	timestamps: true
 });
 
-module.exports = model("user", userSchema);
+module.exports = model('user', userSchema);

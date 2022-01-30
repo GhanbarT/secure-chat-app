@@ -1,5 +1,5 @@
-const bcrypt = require("bcrypt");
-const {Users} = require("../db/models");
+const bcrypt = require('bcrypt');
+const {Users} = require('../db/models');
 
 module.exports = (io, socket) => {
 
@@ -7,17 +7,17 @@ module.exports = (io, socket) => {
 		try {
 			return await Users.findOne({
 				currentSocketId: socket.id
-			}).populate("chats.user").populate("chats.group");
+			}).populate('chats.user').populate('chats.group');
 		} catch (e) {
 			throw new Error();
 		}
-	}
+	};
 
 	const login = async ({username, password}) => {
 		try {
 			const user = await Users.findOne({username});
-			if(!user) {
-				throw new Error("Wrong Credentials!");
+			if (!user) {
+				throw new Error('Wrong Credentials!');
 			}
 			if (await bcrypt.compare(password, user.password)) {
 				try {
@@ -26,32 +26,32 @@ module.exports = (io, socket) => {
 				} catch (e) {
 					throw new Error();
 				}
-				io.to(socket.id).emit("login:success");
+				io.to(socket.id).emit('login:success');
 			} else {
-				throw new Error("Wrong Credentials!")
+				throw new Error('Wrong Credentials!');
 			}
 		} catch (e) {
-			io.to(socket.id).emit("error", {message: e.message, where: "login"});
+			io.to(socket.id).emit('error', {message: e.message, where: 'login'});
 		}
-	}
+	};
 
 	const getAllChats = () => {
 		findUserBySocketId().then(user => {
-        if(!user) {
-            io.to(socket.id).emit("error", {message: "forbidden", where: "getAllChats"});
-            return;
-        }
+			if (!user) {
+				io.to(socket.id).emit('error', {message: 'forbidden', where: 'getAllChats'});
+				return;
+			}
 
-        console.log(user, user.chats);
-        io.to(socket.id).emit("get-all-chats", user.chats);
-    });
-	}
+			console.log(user, user.chats);
+			io.to(socket.id).emit('get-all-chats', user.chats);
+		});
+	};
 
 	const addChat = async ({isGroup, id}) => {
 		try {
 			const user = await findUserBySocketId();
-			if(!user) {
-				io.to(socket.id).emit("error", {message: "forbidden", where: "getAllChats"});
+			if (!user) {
+				io.to(socket.id).emit('error', {message: 'forbidden', where: 'getAllChats'});
 				return;
 			}
 			user.chats = [
@@ -59,18 +59,18 @@ module.exports = (io, socket) => {
 				{
 					isGroup,
 					group: isGroup ? id : null,
-					user: !isGroup  ? id : null
+					user: !isGroup ? id : null
 				}
-			]
+			];
 			await user.save();
-			io.to(socket.id).emit("get-all-chats", user.chats);
+			io.to(socket.id).emit('get-all-chats', user.chats);
 		} catch (e) {
-			io.to(socket.id).emit("error", {message: e.message, where: "addChat"})
+			io.to(socket.id).emit('error', {message: e.message, where: 'addChat'});
 		}
-	}
+	};
 
-	socket.on("login", login)
-	socket.on("get-all-chats", getAllChats)
-	socket.on("add-chat", addChat)
-}
+	socket.on('login', login);
+	socket.on('get-all-chats', getAllChats);
+	socket.on('add-chat', addChat);
+};
 
