@@ -31,24 +31,43 @@ module.exports = (io, socket) => {
 				throw new Error("Wrong Credentials!")
 			}
 		} catch (e) {
-			io.to(socket.id).emit("login:error", {message: e.message});
+			io.to(socket.id).emit("error", {message: e.message, where: "login"});
 		}
 	}
 
 	const getAllChats = () => {
 		const user = findUserBySocketId();
 		if(!user) {
-			io.to(socket.id).emit("forbidden");
+			io.to(socket.id).emit("error", {message: "forbidden", where: "getAllChats"});
 			return;
 		}
 		io.to(socket.id).emit("get-all-chats", user.chats);
 	}
 
-	const addChat = (data) => {
-		// todo;
+	const addChat = async ({isGroup, id}) => {
+		try {
+			const user = await findUserBySocketId();
+			if(!user) {
+				io.to(socket.id).emit("error", {message: "forbidden", where: "getAllChats"});
+				return;
+			}
+			user.chats = [
+				...user.chats,
+				{
+					isGroup,
+					group: isGroup ? id : null,
+					user: !isGroup  ? id : null
+				}
+			]
+			await user.save();
+			io.to(socket.id).emit("get-all-chats", user.chats);
+		} catch (e) {
+			io.to(socket.id).emit("error", {message: e.message, where: "addChat"})
+		}
 	}
 
 	socket.on("login", login)
 	socket.on("get-all-chats", getAllChats)
 	socket.on("add-chat", addChat)
 }
+
