@@ -16,7 +16,7 @@ module.exports = (io, socket) => {
 	const login = async ({username, password}) => {
 		try {
 			const user = await Users.findOne({username});
-			if(!user) {
+			if (!user) {
 				throw new Error("Wrong Credentials!");
 			}
 			if (await bcrypt.compare(password, user.password)) {
@@ -35,22 +35,23 @@ module.exports = (io, socket) => {
 		}
 	}
 
-	const getAllChats = () => {
-		findUserBySocketId().then(user => {
-        if(!user) {
-            io.to(socket.id).emit("error", {message: "forbidden", where: "getAllChats"});
-            return;
-        }
+	const getAllChats = async () => {
+		findUserBySocketId()
+			.then(user => {
+				if (!user) {
+					io.to(socket.id).emit("error", {message: "forbidden", where: "getAllChats"});
+					return;
+				}
 
-        console.log(user, user.chats);
-        io.to(socket.id).emit("get-all-chats", user.chats);
-    });
+				console.log(user, user.chats);
+				io.to(socket.id).emit("get-all-chats", user.chats);
+			});
 	}
 
 	const addChat = async ({isGroup, id}) => {
 		try {
 			const user = await findUserBySocketId();
-			if(!user) {
+			if (!user) {
 				io.to(socket.id).emit("error", {message: "forbidden", where: "getAllChats"});
 				return;
 			}
@@ -59,7 +60,7 @@ module.exports = (io, socket) => {
 				{
 					isGroup,
 					group: isGroup ? id : null,
-					user: !isGroup  ? id : null
+					user: !isGroup ? id : null
 				}
 			]
 			await user.save();
