@@ -292,6 +292,12 @@ body {
       overflow-y: auto;
       margin-bottom: 3rem;
       padding: 1rem; }
+      .layout main #message-wrapper .notification {
+        justify-self: center;
+        align-self: center;
+        text-transform: capitalize;
+        font-size: 4rem;
+        margin: auto auto; }
       .layout main #message-wrapper .message {
         display: flex;
         flex-direction: row;

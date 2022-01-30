@@ -120,6 +120,14 @@ $message-input-height: 3rem;
       margin-bottom: $message-input-height;
       padding: 1rem;
 
+      .notification {
+        justify-self: center;
+        align-self: center;
+        text-transform: capitalize;
+        font-size: 4rem;
+        margin: auto auto;
+      }
+
       .message {
         display: flex;
         flex-direction: row;

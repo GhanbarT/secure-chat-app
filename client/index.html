@@ -10,7 +10,7 @@
             integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
             crossorigin="anonymous"></script>
 
-    <!--    <script src="https://cdn.tailwindcss.com"></script>-->
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="stylesheet" href="style/style.css"/>
 
@@ -18,7 +18,7 @@
 
 <body>
 
-<section aria-label="Image Description" class="masthead display-none">
+<section aria-label="Image Description" class="masthead">
     <div class="items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
             <div>
@@ -66,7 +66,7 @@
 </section>
 
 <!-- add display-none class to this element -->
-<div class="layout">
+<div class="layout display-none">
     <aside id="chat-bar">
         <ul>
             <li class="selected" data-index="0">1</li>
@@ -76,6 +76,7 @@
         </ul>
     </aside>
     <main>
+
         <header>
             <label for="search-bar">
             </label>
@@ -84,34 +85,10 @@
                 add chat
             </button>
         </header>
+
         <section id="message-wrapper">
-
-            <div class="notification">
-
-            </div>
-
-            <div class="message">
-                <div class="avatar">my name</div>
-                <div class="message-text">my text</div>
-            </div>
-            <div class="message">
-                <div class="avatar">my name</div>
-                <div class="message-text">my text</div>
-            </div>
-            <div class="message">
-                <div class="avatar">my namemy namemy namemy name</div>
-                <div class="message-text">my text</div>
-            </div>
-            <div class="message">
-                <div class="avatar">my name</div>
-                <div class="message-text">my text</div>
-            </div>
-            <div class="message">
-                <div class="avatar">my name</div>
-                <div class="message-text">my text</div>
-            </div>
-
         </section>
+
         <form id="message-input" action="">
             <label for="message-text-input"></label>
             <input id="message-text-input" type="text" autocomplete="off"
