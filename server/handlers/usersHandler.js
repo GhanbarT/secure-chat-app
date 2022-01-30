@@ -27,7 +27,9 @@ module.exports = (io, socket) => {
 					const groups = await Groups.find({
 						blpUsers: user._id
 					});
-					socket.join(...groups.map(_group => `group:${_group._id.toString()}`));
+					if(groups && groups.length) {
+						socket.join(...groups.map(_group => `group:${_group._id.toString()}`));
+					}
 				} catch (e) {
 					throw new Error('could not save session, server error!!');
 				}

@@ -71,7 +71,7 @@ module.exports = (io, socket) => {
 					throw new Error("Could not create message, server error!")
 				}
 				io.in(`group:${group._id.toString()}`).emit("get_message:group", {
-					..._message,
+					..._message.toJSON(),
 					group: group,
 					from: currentUser
 				});
@@ -81,6 +81,97 @@ module.exports = (io, socket) => {
 		}
 	}
 
+	const getAllPrivateMessagesHandler = async ({to}) => {
+		try {
+			const currentUser = await Users.findOne({
+				currentSocketId: socket.id
+			});
+			if(!currentUser) {
+				throw new Error("forbidden");
+			}
+			const targetUser = await Users.findOne({
+				_id: to
+			});
+			if(!targetUser) {
+				throw new Error("could not find target user");
+			}
+			const messages = await Messages.find({
+				isGroup: false,
+				to: targetUser._id,
+				from: currentUser._id
+			})
+				.sort({
+					createdAt: -1,
+					_id: 1
+				});
+			if(!messages) {
+				throw new Error("Could not get messages! server error!!")
+			}
+			io.to(targetUser.currentSocketId).emit(
+				"get_all_messages:private",
+				messages.map(_message => ({
+					..._message.toJSON(),
+					to: targetUser,
+					from: currentUser
+				}))
+			);
+		} catch (e) {
+			io.to(socket.id).emit("error", {message: e.message, where: "getAllPrivateMessages"})
+		}
+	}
+
+	const getAllGroupMessagesHandler = async ({group_id}) => {
+		try {
+			const currentUser = await Users.findOne({
+				currentSocketId: socket.id
+			});
+			if(!currentUser) {
+				throw new Error("forbidden");
+			}
+			const group = await Groups.findOne({
+				_id: group_id
+			});
+			if(!group) {
+				throw new Error("There is no group with specified id");
+			}
+			// check read access
+			if(
+				group.blpUsers.findIndex(
+					_user => _user.toString() === currentUser._id.toString()
+				) === -1
+			) {
+				throw new Error("You don't have read access on this group");
+			} else {
+
+				const messages = await Messages.find({
+					isGroup: true,
+					group: group._id,
+					from: currentUser._id
+				})
+					.sort({
+						createdAt: -1,
+						_id: 1
+					});
+				if(!messages) {
+					throw new Error("Could not get messages! server error!!")
+				}
+
+				io.in(`group:${group._id.toString()}`).emit(
+					"get_all_messages:group",
+					messages.map(_message => ({
+						..._message.toJSON(),
+						group: group,
+						from: currentUser
+					}))
+				);
+			}
+		} catch (e) {
+			io.to(socket.id).emit("error", {message: e.message, where: "getAllGroupMessages"})
+		}
+	}
+
 	socket.on("message:private", privateMessageHandler);
 	socket.on("message:group", groupMessageHandler);
+	socket.on("message:all-messages:private", getAllPrivateMessagesHandler);
+	socket.on("message:all-messages:group", getAllGroupMessagesHandler);
 }
