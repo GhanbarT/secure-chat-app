@@ -107,16 +107,19 @@ socket.on('add-chat', (data) => {
 });
 
 socket.on('get_message:private', (data) => {
-	console.log(data);
+	console.log(data, chats);
 	let {from, content} = data;
 
 	for (let i = 0; i < chats.length; i++) {
-		if (from._id === chats[i].user._id) {
+		if(!chats[i]?.group) {
+			continue;
+		}
+		if (from?._id === chats[i]?.user?._id) {
 			if (chats[i].messages) {
 				chats[i].messages.append(content);
 			} else {
-				chats[i].message = [];
-				chats[i].messages.append(content);
+				chats[i].messages = [];
+				chats[i].messages.push(content);
 			}
 		}
 	}
