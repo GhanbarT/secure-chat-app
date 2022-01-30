@@ -1,7 +1,11 @@
 const {Schema, model, Types} = require('mongoose');
 
 const groupSchema = new Schema({
-	groupName: String,
+	groupName: {
+		type: String,
+		unique: true,
+		required: true
+	},
 	blpUsers: [
 		{
 			type: Types.ObjectId,

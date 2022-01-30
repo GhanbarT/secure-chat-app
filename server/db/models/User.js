@@ -16,7 +16,11 @@ const chatSchema = new Schema({
 
 
 const userSchema = new Schema({
-	username: String,
+	username: {
+		type: String,
+		unique: true,
+		required: true
+	},
 	password: String,
 	currentSocketId: String,
 	chats: [chatSchema]

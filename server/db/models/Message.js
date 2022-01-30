@@ -1,7 +1,7 @@
 const {Schema, model, Types} = require('mongoose');
 
 const messageSchema = new Schema({
-	isInGroup: Boolean,
+	isGroup: Boolean,
 	group: {
 		type: Types.ObjectId,
 		ref: "group"
